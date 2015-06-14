@@ -44,7 +44,34 @@ class PlgContentBetterjcontacts extends JPlugin
 				if ($app->isAdmin()) {
 					JForm::addFormPath(__DIR__ . '/forms');
 					$form->loadFile('betterjcontacts', false);
-				}
+				}else{
+					if( $form -> getName() == 'com_contact.contact' ){
+						
+						var_dump( $form);
+						var_dump( $app->input->get('id'));
+						
+						jimport('joomla.application.component.model');
+						JModelLegacy::addIncludePath(JPATH_ADMINISTRATOR.'/components/com_contact/models');
+						$contactModel = JModelLegacy::getInstance( 'Contact', 'ContactModel' );
+						$contact = $contactModel ->getItem($app->input->get('id'));
+						
+						var_dump(json_decode ( $contact->params->get('contact_extra_fields')) );
+						
+						
+						$element = new SimpleXMLElement('<fieldset name="any_name">
+                                    <field name="onfly"
+                                          type="text"
+                                          label="onfly"
+                                          description="onfly desc"
+                                          class="inputbox"
+                                          size="30"
+                                          required="true" />
+                                  </fieldset>');
+$form->setField($element);
+
+					}
+
+					}
 				return true;
 		}
 		return true;
