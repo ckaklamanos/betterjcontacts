@@ -47,27 +47,27 @@ class PlgContentBetterjcontacts extends JPlugin
 				}else{
 					if( $form -> getName() == 'com_contact.contact' ){
 						
-						var_dump( $form);
-						var_dump( $app->input->get('id'));
+
+
 						
 						jimport('joomla.application.component.model');
 						JModelLegacy::addIncludePath(JPATH_ADMINISTRATOR.'/components/com_contact/models');
 						$contactModel = JModelLegacy::getInstance( 'Contact', 'ContactModel' );
 						$contact = $contactModel ->getItem($app->input->get('id'));
 						
-						var_dump(json_decode ( $contact->params->get('contact_extra_fields')) );
+						
+						$extraFields = $contact->params->get('contact_extra_fields');
 						
 						
-						$element = new SimpleXMLElement('<fieldset name="any_name">
-                                    <field name="onfly"
-                                          type="text"
-                                          label="onfly"
-                                          description="onfly desc"
-                                          class="inputbox"
-                                          size="30"
-                                          required="true" />
-                                  </fieldset>');
-$form->setField($element);
+						var_dump( $this->createExtraFieldsXMLString( $extraFields ) );
+						
+						
+						$element = new SimpleXMLElement($this->createExtraFieldsXMLString( $extraFields ));
+						
+						
+						$form->setFieldAttribute ('contact_name','required','false');
+						
+						$form->setField($element);
 
 					}
 
@@ -78,6 +78,48 @@ $form->setField($element);
 	}
 
 	
+	private function createExtraFieldsXMLString( $extraFields ){
+		
+		$extraFields = json_decode ( $extraFields );
+		
+		if(!$extraFields)
+			return false;
+		
+		$extraFieldsArray = array();
+		
+		foreach(  $extraFields  as $key => $value) {
+		
+			foreach( $value as $k => $v ) {
+				
+				$extraFieldsArray[$k][$key] = $v;
+			}
+			
+			
+		}
+		
 
+		$xml = '<fieldset name="extra_fields">';
+		
+		foreach( $extraFieldsArray as $key => $value) {
+			
+			$xml.= '<field ';
+				
+				foreach( $value as $k => $v) {
+					$xml.= $k.'="'.$v.'" ';
+				}
+			
+			
+			$xml.= '/>';
+
+		
+		}
+		
+		
+		$xml.= '</fieldset>';
+		
+		
+		return $xml;
+		
+	}
 	
 }
