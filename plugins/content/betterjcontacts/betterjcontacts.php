@@ -37,37 +37,76 @@ class PlgContentBetterjcontacts extends JPlugin
 	protected $autoloadLanguage = true;
 	
 	public function onContentPrepareForm($form, $data) {
+		
 		$app = JFactory::getApplication();
 		$option = $app->input->get('option');
+		$extension = $app->input->get('extension');
+		
 		switch($option) {
+			
+			case 'com_categories':
+				if ( $app->isAdmin() && $extension=='com_contact' ) {
+					
+					JForm::addFormPath(__DIR__ . '/forms');
+					$form->loadFile('category', false);
+					
+					$document = JFactory::getDocument();
+					
+					JHtml::_('script', Juri::root() . 'plugins/content/betterjcontacts/assets/js/js.js');
+					
+				}
+				return true;
+			
 			case 'com_contact':
 				if ($app->isAdmin()) {
+					
+					
+					JHtml::_('script', Juri::root() . 'plugins/content/betterjcontacts/assets/js/js.js');
+					
 					JForm::addFormPath(__DIR__ . '/forms');
-					$form->loadFile('betterjcontacts', false);
+					$form->loadFile('contact', false);
 				}else{
 					if( $form -> getName() == 'com_contact.contact' ){
 						
 
-
-						
 						jimport('joomla.application.component.model');
+						
+
+						$extraFields = null;
 						JModelLegacy::addIncludePath(JPATH_ADMINISTRATOR.'/components/com_contact/models');
 						$contactModel = JModelLegacy::getInstance( 'Contact', 'ContactModel' );
 						$contact = $contactModel ->getItem($app->input->get('id'));
+						$extraFieldsSource = $contact->params->get('extrafieldssource');
 						
+						switch($extraFieldsSource) {
+							case 'category':
+								$catid = $contact ->catid;
+								
+								JModelLegacy::addIncludePath(JPATH_ADMINISTRATOR.'/components/com_contact/models');
+								$categoryModel = JModelLegacy::getInstance('Category', 'ContactModel', array('ignore_request' => true));
+								$categoryModel->setState('category.id', $catid);
+								$category = $categoryModel ->getItems( $catid );
+								$extraFields = $category[0]->params->get('contact_extra_fields');
+								
+							case 'own':
+								
+								$extraFields = $contact->params->get('contact_extra_fields');
+						}
 						
-						$extraFields = $contact->params->get('contact_extra_fields');
+						//var_dump($extraFields);
 						
+
+
 						
-						var_dump( $this->createExtraFieldsXMLString( $extraFields ) );
+						if($extraFields){
+							//var_dump($this->createExtraFieldsXMLString( $extraFields ));
+							$element = new SimpleXMLElement($this->createExtraFieldsXMLString( $extraFields ));
+							
+							
+							$form->setFieldAttribute ('contact_name','required','false');
+							$form->setField($element);
 						
-						
-						$element = new SimpleXMLElement($this->createExtraFieldsXMLString( $extraFields ));
-						
-						
-						$form->setFieldAttribute ('contact_name','required','false');
-						
-						$form->setField($element);
+						}
 
 					}
 
@@ -97,26 +136,36 @@ class PlgContentBetterjcontacts extends JPlugin
 			
 		}
 		
-
 		$xml = '<fieldset name="extra_fields">';
 		
 		foreach( $extraFieldsArray as $key => $value) {
+									var_dump($value);
+			//Field must be enabled
+			if( !$value['enabled'] )
+			{
+				continue;
+			}
+			
+			//Field name attribute must not be empty
+			if( !trim($value['name']) )
+			{
+				continue;
+			}
+			
 			
 			$xml.= '<field ';
-				
-				foreach( $value as $k => $v) {
-					$xml.= $k.'="'.$v.'" ';
-				}
 			
+			foreach( $value as $k => $v)
+			{
+				$xml.= $k.'="'.trim($v).'" ';
+			}
 			
 			$xml.= '/>';
 
-		
 		}
 		
 		
 		$xml.= '</fieldset>';
-		
 		
 		return $xml;
 		
