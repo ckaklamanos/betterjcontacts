@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form>
+	<fields name="params" >
+		<fieldset name="params" >
+			
+			<field name="contact_extra_fields"
+				type="Repeatable"
+				icon="list"
+				description="PLG_TINY_FIELD_TEMPLATE_FIELD_ELEMENTS_DESC"
+				label="PLG_TINY_FIELD_TEMPLATE_FIELD_ELEMENTS_LABEL"
+				default="{
+					'type':['accesslevel','calendar','category','checkbox','checkboxes','color','contenttype','combo','contentlanguage','editor','email','file','filelist','folderlist','groupedlist','hidden','imagelist','integer','language','list','media','menu','menuitem','meter','note','number','password','radio','range','spacer','sql','tag','tel','text','textarea','timezone','url','user','useractive','usergrouplist','userstate'],
+					'name':['accesslevel','calendar','category','checkbox','checkboxes','color','contenttype','combo','contentlanguage','editor','email','file','filelist','folderlist','groupedlist','hidden','imagelist','integer','language','list','media','menu','menuitem','meter','note','number','password','radio','range','spacer','sql','tag','tel','text','textarea','timezone','url','user','useractive','usergrouplist','userstate'],
+					'label':['Access Level','Calendar','Category','Checkbox','Checkboxes','Color','Content Type','Combo','Content Language','Editor','Email','File','File List','Folder List','Grouped List','Hidden','Image List','Integer','Language','List','Media','Menu','Menu Item','Meter','Note','Number','Password','Radio','Range','Spacer','SQL','Tag','Tel','Text','Textarea','Timezone','URL','User','User Active','Usergroup List','User State'],
+					'options':['description=\'My description\'\nclass=cssclass','Calendar','Category','Checkbox','Checkboxes','Color','Content Type','Combo','Content Language','Editor','Email','File','File List','Folder List','Grouped List','Hidden','Image List','Integer','Language','List','Media','Menu','Menu Item','Meter','Note','Number','Password','Radio','Range','Spacer','SQL','Tag','Tel','Text','Textarea','Timezone','URL','User','User Active','Usergroup List','User State']
+				}">
+				
+				<fields name="params">
+					<fieldset hidden="true" name="contact_extra_fields_modal" repeat="true">
+						
+						<field 
+							name="enabled"
+							label="Enabled"
+							type="checkbox" 
+							default=""
+						>
+						
+						</field>
+						
+						<field 
+							name="type"
+							label="Select field type"
+							type="list" 
+							default=""
+						>
+							
+							<option value=" ">Select</option>
+							<option value="accesslevel">Access Level</option>
+							<option value="calendar">Calendar</option>
+							<option value="category">Category</option>
+							<option value="checkbox">Checkbox</option>
+							<option value="checkboxes">Checkboxes</option>
+							<option value="color">Color</option>
+							<option value="contenttype">Content Type</option>
+							<option value="combo">Combo</option>
+							<option value="contentlanguage">Content Language</option>
+							<option value="editor">Editor</option>
+							<option value="email">Email</option>
+							<option value="file">File</option>
+							<option value="filelist">File List</option>
+							<option value="folderlist">Folder List</option>
+							<option value="groupedlist">Grouped List</option>
+							<option value="hidden">Hidden</option>
+							<option value="imagelist">Image List</option>
+							<option value="integer">Integer</option>
+							<option value="language">Language</option>
+							<option value="list">List</option>
+							<option value="media">Media</option>
+							<option value="menu">Menu</option>
+							<option value="menuitem">Menuitem</option>
+							<option value="meter">Meter</option>
+							<option value="note">Note</option>
+							<option value="number">Number</option>
+							<option value="password">Password</option>
+							<option value="radio">Radio</option>
+							<option value="range">Range</option>
+							<option value="spacer">Spacer</option>
+							<option value="sql">SQL</option>
+							<option value="tag">Tag</option>
+							<option value="tel">Tel</option>
+							<option value="text">Text</option>
+							<option value="textarea">Textarea</option>
+							<option value="timezone">Timezone</option>
+							<option value="url">URL</option>
+							<option value="user">User</option>
+							<option value="useractive">Useractive</option>
+							<option value="usergrouplist">Usergroup List</option>
+							<option value="userstate">User State</option>
+						
+						</field>
+						
+						<field 
+							name="name"
+							label="Field name"
+							type="text" 
+							default=" "
+						>
+		
+						</field>
+
+						<field 
+							name="label"
+							label="Field label"
+							type="text" 
+							default=" "
+						>
+		
+						</field>
+						
+
+						<field 
+							name="class"
+							label="Class"
+							type="text" 
+							default=""
+						>
+						</field>
+						
+						<field 
+							name="default"
+							label="Default"
+							type="text" 
+							default=""
+						>
+						</field>
+						
+						<field 
+							name="options"
+							label="Options"
+							type="textarea" 
+							default=""
+						>
+						</field>
+						
+						
+
+					</fieldset>
+				</fields>
+			</field>
+		</fieldset>
+	</fields>
+</form>

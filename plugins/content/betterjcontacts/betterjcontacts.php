@@ -49,6 +49,7 @@ class PlgContentBetterjcontacts extends JPlugin
 					
 					JForm::addFormPath(__DIR__ . '/forms');
 					$form->loadFile('category', false);
+					$form->loadFile('extrafields', false);
 					
 					$document = JFactory::getDocument();
 					
@@ -64,7 +65,8 @@ class PlgContentBetterjcontacts extends JPlugin
 					JHtml::_('script', Juri::root() . 'plugins/content/betterjcontacts/assets/js/js.js');
 					
 					JForm::addFormPath(__DIR__ . '/forms');
-					$form->loadFile('contact', false);
+					$form->loadFile('category', false);
+					$form->loadFile('extrafields', false);
 				}else{
 					if( $form -> getName() == 'com_contact.contact' ){
 						
@@ -139,9 +141,9 @@ class PlgContentBetterjcontacts extends JPlugin
 		$xml = '<fieldset name="extra_fields">';
 		
 		foreach( $extraFieldsArray as $key => $value) {
-									var_dump($value);
+			//var_dump($value);
 			//Field must be enabled
-			if( !$value['enabled'] )
+			if( !isset( $value['enabled'] ) || !$value['enabled'] )
 			{
 				continue;
 			}
