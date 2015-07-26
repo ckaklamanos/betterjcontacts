@@ -141,8 +141,8 @@ class PlgContentBetterjcontacts extends JPlugin
 		$xml = '<fieldset name="extra_fields">';
 		
 		foreach( $extraFieldsArray as $key => $value) {
-			//var_dump($value);
-			//Field must be enabled
+
+		//Field must be enabled
 			if( !isset( $value['enabled'] ) || !$value['enabled'] )
 			{
 				continue;
@@ -159,16 +159,25 @@ class PlgContentBetterjcontacts extends JPlugin
 			
 			foreach( $value as $k => $v)
 			{
-				$xml.= $k.'="'.trim($v).'" ';
+				if($k!='options')
+				{
+					$xml.= $k.'="'.trim($v).'" ';
+				}
+				else
+				{
+					
+					$xml.= trim($v).' ';
+				}
+				
 			}
 			
 			$xml.= '/>';
-
+			
 		}
 		
 		
 		$xml.= '</fieldset>';
-		
+
 		return $xml;
 		
 	}
